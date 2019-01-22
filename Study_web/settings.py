@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -51,7 +50,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Study_web.urls'
-
+print(BASE_DIR)
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -120,3 +119,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,'static/css'),
+    os.path.join(BASE_DIR,'static/images'),
+    os.path.join(BASE_DIR,'static/js'),
+]
