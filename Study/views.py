@@ -9,4 +9,4 @@ def login(request):
     args={
         'form':AuthenticationForm
     }
-    return render(request,'login.html',args)
+    return render(request, 'login.html',args)
