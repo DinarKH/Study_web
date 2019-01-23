@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Art</h1>
+    {% for el in articles %}
+        {{ el.name }}
+        {{ el.descriptio }}
+    {% endfor %}
+{% endblock %}
