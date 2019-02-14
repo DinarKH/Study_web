@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1>Hello</h1>
+    <h1>Hello</h1>
+    <br>
+    {% if not user.is_authenticated %}
+        Anon
+    {% else %}
+        {{ user.username }}
+    {% endif %}
 {% endblock %}

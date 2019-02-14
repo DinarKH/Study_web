@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'Study_web.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'study_web_db',
+        'NAME': 'study_service_web',
         'USER': 'Dinar5',
         'PASSWORD': '',
         'HOST': '127.0.0.1',

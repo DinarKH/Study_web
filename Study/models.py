@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 
 # Create your models here.
-class Article(models.Model):
+class Lesson(models.Model):
     name = models.CharField(max_length=100)
     descriptio = models.CharField(max_length=1000)
 
@@ -14,7 +14,7 @@ class Article(models.Model):
 
 
 class Comment(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     text = models.CharField(max_length=1000)
 
