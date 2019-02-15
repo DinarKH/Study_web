@@ -1,13 +1,13 @@
-from django.shortcuts import render
-from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from .forms import RegistrationForm
 # from .models import Article
 from django.http import HttpResponse
 
 
 def home(request):
-    print(request.user)
-    return render(request, 'home.html',{
-        'user':request.user,
+    return render(request, 'home.html', {
+        'user': request.user,
     })
 
 
@@ -25,3 +25,15 @@ def login(request):
         'form': AuthenticationForm
     }
     return render(request, 'login.html', args)
+
+
+def registration(requst):
+    if requst.method == 'POST':
+        form = RegistrationForm(requst.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/logim/')
+    else:
+        return render(requst, 'registration.html', {
+            'form': RegistrationForm,
+        })
