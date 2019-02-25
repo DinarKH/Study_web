@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import authenticate,login
 from .forms import RegistrationForm
 # from .models import Article
 from django.http import HttpResponse
@@ -18,7 +19,7 @@ def articles(request):
     #               })
 
 
-def login(request):
+def loginView(request):
     return render(request, 'login.html',
         {
         'form': AuthenticationForm
@@ -29,7 +30,10 @@ def registration(requst):
     if requst.method == 'POST':
         form = RegistrationForm(requst.POST)
         if form.is_valid():
-            form.save()
+            new_user=form.save()
+            new_user=authenticate(requst,username=form.cleaned_data['username'],
+                                  password=form.cleaned_data['password1'])
+            login(requst,new_user)
             return redirect('/logim/')
         else:
             return render(requst, 'registration.html', {
