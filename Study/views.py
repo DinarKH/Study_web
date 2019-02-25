@@ -6,9 +6,7 @@ from django.http import HttpResponse
 
 
 def home(request):
-    return render(request, 'home.html', {
-        'user': request.user,
-    })
+    return render(request, 'home.html',)
 
 
 def articles(request):
@@ -21,10 +19,10 @@ def articles(request):
 
 
 def login(request):
-    args = {
+    return render(request, 'login.html',
+        {
         'form': AuthenticationForm
-    }
-    return render(request, 'login.html', args)
+    })
 
 
 def registration(requst):
@@ -33,6 +31,10 @@ def registration(requst):
         if form.is_valid():
             form.save()
             return redirect('/logim/')
+        else:
+            return render(requst, 'registration.html', {
+                'form': form,
+            })
     else:
         return render(requst, 'registration.html', {
             'form': RegistrationForm,
