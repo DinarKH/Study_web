@@ -7,6 +7,7 @@ urlpatterns = [
     re_path(r'^logout/$', auth_views.LogoutView.as_view(template_name='logout.html')),
     re_path(r'^articles/$', views.articles),
     re_path(r'^registration/$', views.registration),
+    re_path(r'^change_password/$',views.changePassword),
     re_path(r'^', views.home),
 ]
 
