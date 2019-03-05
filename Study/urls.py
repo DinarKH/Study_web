@@ -8,7 +8,8 @@ from . import views
 urlpatterns = [
     re_path(r'^login/$', LoginView.as_view(template_name='login.html')),
     re_path(r'^logout/$', LogoutView.as_view(template_name='logout.html')),
-    re_path(r'^articles/$', views.articles),
+    re_path(r'^lessons/$', views.lessons),
+    re_path(r'^lessons/(?P<number>\d+)/$', views.lessons_detail),
     re_path(r'^registration/$', views.registration),
     re_path(r'^change_password/$', views.changePassword),
     re_path(r'^password_reset/$', PasswordResetView.as_view(),name='password_reset'),

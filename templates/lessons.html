@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Курсы</h1>
+    {% for el in lessons %}
+        <h4>
+            {{ el.name }}
+        </h4>
+        {{ el.descriptio }}
+        <a href="/lessons/{{ el.id }}/">Жми</a>
+    {% endfor %}
+{% endblock %}

@@ -1,16 +1,27 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from .forms import RegistrationForm
-
+from .models import Lesson
 
 
 def home(request):
     return render(request, 'home.html', )
 
 
-def articles(request):
-    return render(request, 'login.html')
+def lessons(request):
+    lessons_list = Lesson.objects.all()
+    return render(request, 'lessons.html',
+                  {
+                      'lessons': lessons_list,
+                  })
+
+def lessons_detail(request,number):
+    instance= get_object_or_404(Lesson,id=number)
+    return render(request, 'lesson_detail.html',
+                  {
+                      'instance': instance
+                  })
 
 def loginView(request):
     return render(request, 'login.html',
