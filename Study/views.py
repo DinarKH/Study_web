@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
-from .forms import RegistrationForm, LessonForm
-from .models import Lesson
+from .forms import RegistrationForm, LessonForm, CommentForm
+from .models import Lesson, Comment
 
 
 def home(request):
@@ -12,7 +12,8 @@ def home(request):
 
 def lessons(request):
     lessons_list = Lesson.objects.all()
-    paginator = Paginator(lessons_list, 2)
+    page_limot = 2
+    paginator = Paginator(lessons_list, page_limot)
     page = request.GET.get('p')
     page = paginator.get_page(page)
     return render(request, 'lessons.html',
@@ -25,9 +26,26 @@ def lessons(request):
 
 def lessons_detail(request, number):
     instance = get_object_or_404(Lesson, id=number)
+    comment_list = Comment.objects.filter(lesson=number)
+    if request.method == 'POST':
+        form = CommentForm(data=request.POST)
+        if form.is_valid():
+            form.save(commit=False)
+            form.instance.lesson_id = number
+            form.instance.name = request.user.username
+            form.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            return render(request, 'lesson_detail.html',
+                          {
+                              'instance': instance,
+                              'form': CommentForm,
+                          })
     return render(request, 'lesson_detail.html',
                   {
-                      'instance': instance
+                      'instance': instance,
+                      'form': CommentForm,
+                      'comment_list': comment_list,
                   })
 
 
@@ -71,9 +89,11 @@ def changePassword(request):
             'form': form,
         })
 
+
 def userProfile(request):
-    return render(request, 'user_profile.html',{
+    return render(request, 'user_profile.html', {
     })
+
 
 def addLesson(request):
     if request.method == 'POST':
@@ -86,6 +106,6 @@ def addLesson(request):
                 'form': LessonForm
             })
     else:
-        return render(request, 'add_lesson.html',{
+        return render(request, 'add_lesson.html', {
             'form': LessonForm
         })

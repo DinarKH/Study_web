@@ -6,4 +6,19 @@
         {{ instance.name }}
     </h4>
     {{ instance.descriptio }}
+    <h5>Add Comment</h5>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">
+            Enter
+        </button>
+    </form>
+    <br>
+    <hr>
+    {% for comment in comment_list %}
+        <p>{{ comment.name }}</p>
+        <p>{{ comment.text }}</p>
+        <hr>
+    {% endfor %}
 {% endblock %}
