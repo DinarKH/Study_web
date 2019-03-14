@@ -5,8 +5,14 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-    <button type="submit">
-        Add lesson
-    </button>
+        <p><select name="subject">
+            {% for subject in subject_list %}
+                <option value="{{ subject.id }}">{{ subject }}</option>
+            {% endfor %}
+        </select></p>
+
+        <button type="submit">
+            Add lesson
+        </button>
     </form>
 {% endblock %}

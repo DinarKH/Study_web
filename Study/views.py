@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
 from .forms import RegistrationForm, LessonForm, CommentForm
-from .models import Lesson, Comment
+from .models import Lesson, Comment, Subject
 
 
 def home(request):
@@ -96,16 +96,22 @@ def userProfile(request):
 
 
 def addLesson(request):
+    subject_list = Subject.objects.all()
     if request.method == 'POST':
         form = LessonForm(data=request.POST)
         if form.is_valid():
+            form.save(commit=False)
+            form.instance.subject_id = request.POST['subject']
+            form.instance.user = request.user
             form.save()
             return HttpResponseRedirect(request.path_info)
         else:
             return render(request, 'add_lesson.html', {
-                'form': LessonForm
+                'form': LessonForm,
+                'subject_list': subject_list,
             })
     else:
         return render(request, 'add_lesson.html', {
-            'form': LessonForm
+            'form': LessonForm,
+            'subject_list': subject_list,
         })

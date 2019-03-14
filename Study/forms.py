@@ -23,7 +23,7 @@ class RegistrationForm(UserCreationForm):
 class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
-        fields = ['name', 'descriptio']
+        fields = ['name', 'description']
 
 class CommentForm(forms.ModelForm):
     class Meta:

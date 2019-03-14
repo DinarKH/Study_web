@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>Курсы</h1>
     <h4>
         {{ instance.name }}
     </h4>
-    {{ instance.descriptio }}
+    {{ instance.description }}
     <h5>Add Comment</h5>
     <form method="post">
         {% csrf_token %}
