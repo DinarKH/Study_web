@@ -12,10 +12,12 @@ urlpatterns = [
     re_path(r'^lessons/(?P<number>\d+)/$', views.lessons_detail),
     re_path(r'^registration/$', views.registration),
     re_path(r'^change_password/$', views.changePassword),
-    re_path(r'^password_reset/$', PasswordResetView.as_view(),name='password_reset'),
+    re_path(r'^password_reset/$', PasswordResetView.as_view(), name='password_reset'),
     re_path(r'^password_reset/done/$', PasswordResetDoneView.as_view(), name='password_reset_done'),
-    re_path(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    re_path(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+            PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     re_path(r'^reset/done/$', PasswordResetDoneView.as_view(), name='password_reset_done'),
-    # re_path(r'^user_page/$',)
+    re_path(r'^user_profile/$', views.userProfile),
+    re_path(r'^add_lesson/$', views.addLesson),
     re_path(r'^', views.home),
 ]

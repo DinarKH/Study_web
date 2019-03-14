@@ -71,3 +71,7 @@ def changePassword(request):
         return render(request, 'change_password.html', {
             'form': form,
         })
+
+def userProfile(request):
+    return render(request, 'user_profile.html',{
+    })
