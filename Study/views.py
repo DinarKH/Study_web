@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
-from .forms import RegistrationForm
+from .forms import RegistrationForm, LessonForm
 from .models import Lesson
 
 
@@ -61,7 +61,6 @@ def changePassword(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
         if form.is_valid():
-            form.save()
             update_session_auth_hash(request, form.user)
             return redirect('/home/')
         else:
@@ -75,3 +74,18 @@ def changePassword(request):
 def userProfile(request):
     return render(request, 'user_profile.html',{
     })
+
+def addLesson(request):
+    if request.method == 'POST':
+        form = LessonForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            return render(request, 'add_lesson.html', {
+                'form': LessonForm
+            })
+    else:
+        return render(request, 'add_lesson.html',{
+            'form': LessonForm
+        })
