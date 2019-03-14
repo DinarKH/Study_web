@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.core.paginator import Paginator
 from .forms import RegistrationForm
 from .models import Lesson
 
@@ -11,17 +12,24 @@ def home(request):
 
 def lessons(request):
     lessons_list = Lesson.objects.all()
+    paginator = Paginator(lessons_list, 2)
+    page = request.GET.get('p')
+    page = paginator.get_page(page)
     return render(request, 'lessons.html',
                   {
                       'lessons': lessons_list,
+                      'page': page,
+                      'paginator': paginator,
                   })
 
-def lessons_detail(request,number):
-    instance= get_object_or_404(Lesson,id=number)
+
+def lessons_detail(request, number):
+    instance = get_object_or_404(Lesson, id=number)
     return render(request, 'lesson_detail.html',
                   {
                       'instance': instance
                   })
+
 
 def loginView(request):
     return render(request, 'login.html',
