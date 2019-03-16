@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
-from .forms import RegistrationForm, LessonForm, CommentForm
+from .forms import RegistrationForm, LessonForm, CommentForm, SearchForm
 from .models import Lesson, Comment, Subject
 
 
@@ -11,16 +11,29 @@ def home(request):
 
 
 def lessons(request):
-    lessons_list = Lesson.objects.all()
-    page_limot = 2
-    paginator = Paginator(lessons_list, page_limot)
+    search = request.GET.get('search_query')
+    subject_search = request.GET.get('subject_search')
+    if search is None:
+        lessons_list = Lesson.objects.all()
+        page_link = "?p="
+    else:
+        if search == '':
+            print(subject_search)
+            lessons_list = Lesson.objects.filter(subject=subject_search)
+        else:
+            lessons_list = Lesson.objects.filter(name__contains=search, subject=subject_search)
+        page_link = '?search_query=' + search + "&subject_search=" + subject_search + "&p="
+    page_limit = 2
+    paginator = Paginator(lessons_list, page_limit)
     page = request.GET.get('p')
     page = paginator.get_page(page)
     return render(request, 'lessons.html',
                   {
-                      'lessons': lessons_list,
+                      'lessons_list': lessons_list,
                       'page': page,
                       'paginator': paginator,
+                      'search_form': SearchForm,
+                      'page_link': page_link,
                   })
 
 
