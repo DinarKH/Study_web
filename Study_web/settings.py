@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_PROFILE_MODULE = 'Study.UserProfile'
 # Application definition
 
 INSTALLED_APPS = [

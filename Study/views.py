@@ -104,7 +104,11 @@ def changePassword(request):
 
 
 def userProfile(request):
+    user_instance = request.user
+    user_lessons = Lesson.objects.filter(user=user_instance)
     return render(request, 'user_profile.html', {
+        'user': user_instance,
+        'lessons': user_lessons
     })
 
 

@@ -2,5 +2,11 @@
 
 {% block body %}
     <h1>User</h1>
-    {{ user.username }}
+    <p>{{ user.username }}</p>
+    <p>{{ user.profile.money }}</p>
+    <p>{{ user.profile.description }}</p>
+    <h4>Lessons</h4>
+    {% for lesson in lessons %}
+        <p>{{ lesson }}</p>
+    {% endfor %}
 {% endblock %}
