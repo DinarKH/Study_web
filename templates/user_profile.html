@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block body %}
+    <a href="/user_profile_edit/">Edit</a>
     <h1>User</h1>
     <p>{{ user.username }}</p>
     <p>{{ user.profile.money }}</p>
     <p>{{ user.profile.description }}</p>
     <h4>Lessons</h4>
     {% for lesson in lessons %}
-        <p>{{ lesson.name }}</p>
         <a href={{"/lessons/"}}{{lesson.id|stringformat:"i" |add:"/"}}>
-            Жми
+            <p>{{ lesson.name }}</p>
         </a>
     {% endfor %}
 {% endblock %}

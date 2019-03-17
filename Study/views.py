@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
-from .forms import RegistrationForm, LessonForm, CommentForm, SearchForm
+from .forms import RegistrationForm, LessonForm, CommentForm, SearchForm, UserProfileEditForm
 from .models import Lesson, Comment, Subject, User
 
 
@@ -136,4 +136,21 @@ def addLesson(request):
         return render(request, 'add_lesson.html', {
             'form': LessonForm,
             'subject_list': subject_list,
+        })
+
+def userProfileEdit(request):
+    user_profile = request.user.profile
+
+    if request.method == 'POST':
+        form = UserProfileEditForm(data=request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            return render(request, 'user_profile_edit.html', {
+                'form': UserProfileEditForm,
+            })
+    else:
+        return render(request, 'user_profile_edit.html', {
+            'form': UserProfileEditForm,
         })
