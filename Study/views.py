@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, Pass
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
 from .forms import RegistrationForm, LessonForm, CommentForm, SearchForm
-from .models import Lesson, Comment, Subject
+from .models import Lesson, Comment, Subject, User
 
 
 def home(request):
@@ -104,12 +104,17 @@ def changePassword(request):
 
 
 def userProfile(request):
-    user_instance = request.user
-    user_lessons = Lesson.objects.filter(user=user_instance)
-    return render(request, 'user_profile.html', {
-        'user': user_instance,
-        'lessons': user_lessons
-    })
+    try:
+        user_name = request.GET.get('user')
+        user_instance = User.objects.get(username=user_name)
+        user_lessons = Lesson.objects.filter(user=user_instance)
+        return render(request, 'user_profile.html', {
+            'user': user_instance,
+            'lessons': user_lessons,
+        })
+    except:
+        return render(request, 'user_profile.html', {
+        })
 
 
 def addLesson(request):

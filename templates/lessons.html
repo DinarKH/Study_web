@@ -10,20 +10,23 @@
         </button>
     </form>
     {% for el in page %}
-        <h4>
-            {{ el.name }}
-        </h4>
+        <a href="/lessons/{{ el.id }}/">
+            <h4>
+                {{ el.name }}
+            </h4>
+        </a>
         <p>
             {{ el.description }}
         </p>
-        <h6>
-            {{ el.user }}
-        </h6>
+        <a href={{ "/user_profile/?user="|add:el.user.username }}>
+            <h6>
+                {{ el.user }}
+            </h6>
+        </a>
         <h6>
             {{ el.subject }}
         </h6>
         {{ el.descriptio }}
-        <a href="/lessons/{{ el.id }}/">Жми</a>
     {% endfor %}
     <br><br>
     <nav aria-label="...">

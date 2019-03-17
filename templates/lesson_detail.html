@@ -5,7 +5,9 @@
         {{ instance.name }}
     </h4>
     <p>{{ instance.description }}</p>
-    <p>{{ instance.user }}</p>
+    <a href={{"/user_profile/?user="|add:instance.user.username}}>
+        <p>{{ instance.user }}</p>
+    </a>
     <h5>Add Comment</h5>
     <form method="post">
         {% csrf_token %}

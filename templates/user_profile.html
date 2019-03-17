@@ -7,6 +7,9 @@
     <p>{{ user.profile.description }}</p>
     <h4>Lessons</h4>
     {% for lesson in lessons %}
-        <p>{{ lesson }}</p>
+        <p>{{ lesson.name }}</p>
+        <a href={{"/lessons/"}}{{lesson.id|stringformat:"i" |add:"/"}}>
+            Жми
+        </a>
     {% endfor %}
 {% endblock %}

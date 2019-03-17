@@ -48,7 +48,7 @@
                 <a class="nav-link" href="/admin/">Admin</a>
             </li>
         </ul>
-        <a href="/user_profile/">
+        <a href={{"/user_profile/?user="|add:user.username}}>
             <span class="navbar-text">
                 {% if not user.is_authenticated %}
                     Anon
