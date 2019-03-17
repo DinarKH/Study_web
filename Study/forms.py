@@ -22,7 +22,12 @@ class RegistrationForm(UserCreationForm):
 class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'subject']
+
+class LessonEditForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = ['name', 'description', 'subject']
 
 
 class CommentForm(forms.ModelForm):
@@ -40,3 +45,4 @@ class UserProfileEditForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('description', 'money')
+

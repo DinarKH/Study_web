@@ -19,6 +19,7 @@ urlpatterns = [
     re_path(r'^reset/done/$', PasswordResetDoneView.as_view(), name='password_reset_done'),
     re_path(r'^user_profile/$', views.userProfile),
     re_path(r'^add_lesson/$', views.addLesson),
+    re_path(r'^edit_lesson/(?P<number>\d+)/$', views.editLesson),
     re_path(r'^user_profile_edit/$', views.userProfileEdit),
     re_path(r'^', views.home),
 ]

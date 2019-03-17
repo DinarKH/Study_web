@@ -4,6 +4,9 @@
     <h4>
         {{ instance.name }}
     </h4>
+    <a href={{"/edit_lesson/"}}{{ instance.pk|stringformat:"i"|add:"/"}}>
+        Edit
+    </a>
     <p>{{ instance.description }}</p>
     <a href={{"/user_profile/?user="|add:instance.user.username}}>
         <p>{{ instance.user }}</p>

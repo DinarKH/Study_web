@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
-from .forms import RegistrationForm, LessonForm, CommentForm, SearchForm, UserProfileEditForm
+from .forms import RegistrationForm, LessonForm, LessonEditForm, CommentForm, SearchForm, UserProfileEditForm
 from .models import Lesson, Comment, Subject, User
 
 
@@ -118,25 +118,41 @@ def userProfile(request):
 
 
 def addLesson(request):
-    subject_list = Subject.objects.all()
     if request.method == 'POST':
         form = LessonForm(data=request.POST)
         if form.is_valid():
             form.save(commit=False)
-            form.instance.subject_id = request.POST['subject']
             form.instance.user = request.user
             form.save()
             return HttpResponseRedirect(request.path_info)
         else:
             return render(request, 'add_lesson.html', {
                 'form': LessonForm,
-                'subject_list': subject_list,
             })
     else:
         return render(request, 'add_lesson.html', {
             'form': LessonForm,
-            'subject_list': subject_list,
         })
+
+
+def editLesson(request, number):
+    if request.method == 'POST':
+        current_lesson = Lesson.objects.get(id=number)
+        form = LessonEditForm(data=request.POST, instance=current_lesson)
+        if form.is_valid():
+            form.save(commit=False)
+            form.instance.user = request.user
+            form.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            return render(request, 'edit_lesson.html', {
+                'form': LessonEditForm,
+            })
+    else:
+        return render(request, 'edit_lesson.html', {
+            'form': LessonEditForm,
+        })
+
 
 def userProfileEdit(request):
     user_profile = request.user.profile
