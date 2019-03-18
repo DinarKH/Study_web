@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
-from .forms import RegistrationForm, LessonForm, LessonEditForm, CommentForm, SearchForm, UserProfileEditForm
-from .models import Lesson, Comment, Subject, User
-
+from .forms import RegistrationForm, LessonForm, LessonEditForm, CommentForm, SearchForm, UserProfileEditForm, CommentExampleForm
+from .models import Lesson, Comment, Subject, User, Example, CommentExample
 
 def home(request):
     return render(request, 'home.html', )
@@ -39,6 +38,7 @@ def lessons(request):
 
 def lessons_detail(request, number):
     instance = get_object_or_404(Lesson, id=number)
+    example_list = Example.objects.filter(lesson=number)
     comment_list = Comment.objects.filter(lesson=number)
     if request.method == 'POST':
         form = CommentForm(data=request.POST)
@@ -53,11 +53,41 @@ def lessons_detail(request, number):
                           {
                               'instance': instance,
                               'form': CommentForm,
+                              'comment_list': comment_list,
+                              'example_list': example_list,
                           })
     return render(request, 'lesson_detail.html',
                   {
                       'instance': instance,
                       'form': CommentForm,
+                      'comment_list': comment_list,
+                      'example_list': example_list,
+                  })
+
+
+def example(request, lesson, example):
+    example_instance = Example.objects.get(pk=example)
+    # instance = get_object_or_404(Lesson, id=number)
+    comment_list = CommentExample.objects.filter(example=example)
+    if request.method == 'POST':
+        form = CommentExampleForm(data=request.POST)
+        if form.is_valid():
+            form.save(commit=False)
+            form.instance.example_id = example
+            form.instance.name = request.user.username
+            form.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            return render(request, 'example.html',
+                          {
+                              'instance': example_instance,
+                              'form': CommentExampleForm,
+                              'comment_list': comment_list,
+                          })
+    return render(request, 'example.html',
+                  {
+                      'instance': example_instance,
+                      'form': CommentExampleForm,
                       'comment_list': comment_list,
                   })
 

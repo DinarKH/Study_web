@@ -21,6 +21,25 @@ class Lesson(models.Model):
         return self.name
 
 
+class Example(models.Model):
+    name = models.CharField(max_length=100)
+    text = models.CharField(max_length=10000)
+    access = models.BooleanField()
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
+class CommentExample(models.Model):
+    example = models.ForeignKey(Example, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    text = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.name
+
+
 class Comment(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)

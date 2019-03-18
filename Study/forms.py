@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Lesson, Comment, Subject, UserProfile
+from .models import Lesson, Comment, CommentExample, Subject, UserProfile
 
 
 class RegistrationForm(UserCreationForm):
@@ -24,6 +24,7 @@ class LessonForm(forms.ModelForm):
         model = Lesson
         fields = ['name', 'description', 'subject']
 
+
 class LessonEditForm(forms.ModelForm):
     class Meta:
         model = Lesson
@@ -37,12 +38,19 @@ class CommentForm(forms.ModelForm):
         exclude = ('lesson',)
 
 
+class CommentExampleForm(forms.ModelForm):
+    class Meta:
+        model = CommentExample
+        fields = {'text'}
+        exclude = ('example',)
+
+
 class SearchForm(forms.Form):
     search_query = forms.CharField(max_length=100, required=False)
     subject_search = forms.ModelMultipleChoiceField(queryset=Subject.objects.all(), widget=forms.Select)
+
 
 class UserProfileEditForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('description', 'money')
-

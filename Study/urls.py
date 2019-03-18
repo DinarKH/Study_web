@@ -10,6 +10,7 @@ urlpatterns = [
     re_path(r'^logout/$', LogoutView.as_view(template_name='logout.html')),
     re_path(r'^lessons/$', views.lessons),
     re_path(r'^lessons/(?P<number>\d+)/$', views.lessons_detail),
+    re_path(r'^lessons/(?P<lesson>\d+)/(?P<example>\d+)/$', views.example),
     re_path(r'^registration/$', views.registration),
     re_path(r'^change_password/$', views.changePassword),
     re_path(r'^password_reset/$', PasswordResetView.as_view(), name='password_reset'),
@@ -20,6 +21,7 @@ urlpatterns = [
     re_path(r'^user_profile/$', views.userProfile),
     re_path(r'^add_lesson/$', views.addLesson),
     re_path(r'^edit_lesson/(?P<number>\d+)/$', views.editLesson),
+    re_path(r'^lessons/(?P<lesson>\d+)/(?P<example>\d+)/$', views.example),
     re_path(r'^user_profile_edit/$', views.userProfileEdit),
     re_path(r'^', views.home),
 ]
