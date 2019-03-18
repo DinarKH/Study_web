@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Lesson, Comment, CommentExample, Subject, UserProfile
+from .models import Lesson, Comment, CommentExample, Subject, UserProfile, Example
 
 
 class RegistrationForm(UserCreationForm):
@@ -29,6 +29,18 @@ class LessonEditForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = ['name', 'description', 'subject']
+
+class ExampleForm(forms.ModelForm):
+    class Meta:
+        model = Example
+        fields = ['name', 'text', 'access']
+
+
+class ExampleEditForm(forms.ModelForm):
+    class Meta:
+        model = Example
+        fields = ['name', 'text', 'access']
+
 
 
 class CommentForm(forms.ModelForm):

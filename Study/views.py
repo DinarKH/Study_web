@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRe
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
-from .forms import RegistrationForm, LessonForm, LessonEditForm, CommentForm, SearchForm, UserProfileEditForm, CommentExampleForm
+from .forms import RegistrationForm, LessonForm, LessonEditForm, CommentForm, SearchForm, UserProfileEditForm, \
+    CommentExampleForm, ExampleForm, ExampleEditForm
 from .models import Lesson, Comment, Subject, User, Example, CommentExample
+
 
 def home(request):
     return render(request, 'home.html', )
@@ -83,12 +85,14 @@ def example(request, lesson, example):
                               'instance': example_instance,
                               'form': CommentExampleForm,
                               'comment_list': comment_list,
+                              'lesson': lesson,
                           })
     return render(request, 'example.html',
                   {
                       'instance': example_instance,
                       'form': CommentExampleForm,
                       'comment_list': comment_list,
+                      'lesson': lesson,
                   })
 
 
@@ -181,6 +185,25 @@ def editLesson(request, number):
     else:
         return render(request, 'edit_lesson.html', {
             'form': LessonEditForm,
+        })
+
+
+def editExample(request, number, example):
+    if request.method == 'POST':
+        current_example = Example.objects.get(id=example)
+        form = ExampleEditForm(data=request.POST, instance=current_example)
+        if form.is_valid():
+            # form.save(commit=False)
+            # form.instance.user = request.user
+            form.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            return render(request, 'edit_example.html', {
+                'form': ExampleEditForm,
+            })
+    else:
+        return render(request, 'edit_example.html', {
+            'form': ExampleEditForm,
         })
 
 

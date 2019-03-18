@@ -4,7 +4,7 @@
     <h4>
         {{ instance.name }}
     </h4>
-    <a href={{"/edit_lesson/"}}{{ instance.pk|stringformat:"i"|add:"/"}}>
+    <a href={{"/edit_lesson/"}}{{ lesson|add:"/"}}{{ instance.pk|stringformat:"i"|add:"/"}}>
         Edit not good
     </a>
     <p>{{ instance.text }}</p>
