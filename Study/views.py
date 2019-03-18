@@ -168,6 +168,24 @@ def addLesson(request):
             'form': LessonForm,
         })
 
+def addExample(request, number):
+    if request.method == 'POST':
+        form = ExampleForm(data=request.POST)
+        if form.is_valid():
+            form.save(commit=False)
+            form.instance.lesson_id = number
+            form.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            return render(request, 'add_example.html', {
+                'form': ExampleForm,
+            })
+    else:
+        return render(request, 'add_lesson.html', {
+            'form': ExampleForm,
+        })
+
+
 
 def editLesson(request, number):
     if request.method == 'POST':
