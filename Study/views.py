@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.core.paginator import Paginator
 from .forms import RegistrationForm, LessonForm, LessonEditForm, CommentForm, SearchForm, UserProfileEditForm, \
     CommentExampleForm, ExampleForm, ExampleEditForm
-from .models import Lesson, Comment, Subject, User, Example, CommentExample
+from .models import Lesson, Comment, Subject, User, Example, CommentExample, UserProfile
 
 
 def home(request):
@@ -40,6 +40,11 @@ def lessons(request):
 
 def lessons_detail(request, number):
     instance = get_object_or_404(Lesson, id=number)
+    sub_list = instance.userprofile_set.all()
+    if request.user.profile in sub_list:
+        sub_text = "unsubscribe"
+    else:
+        sub_text = "subscribe"
     example_list = Example.objects.filter(lesson=number)
     comment_list = Comment.objects.filter(lesson=number)
     if request.method == 'POST':
@@ -57,6 +62,7 @@ def lessons_detail(request, number):
                               'form': CommentForm,
                               'comment_list': comment_list,
                               'example_list': example_list,
+                              'sub_text': sub_text
                           })
     return render(request, 'lesson_detail.html',
                   {
@@ -64,6 +70,7 @@ def lessons_detail(request, number):
                       'form': CommentForm,
                       'comment_list': comment_list,
                       'example_list': example_list,
+                      'sub_text': sub_text
                   })
 
 
@@ -142,9 +149,12 @@ def userProfile(request):
         user_name = request.GET.get('user')
         user_instance = User.objects.get(username=user_name)
         user_lessons = Lesson.objects.filter(user=user_instance)
+        user_subs = user_instance.profile.subscribe.all()
+        print(user_subs)
         return render(request, 'user_profile.html', {
             'user': user_instance,
             'lessons': user_lessons,
+            'subs': user_subs,
         })
     except:
         return render(request, 'user_profile.html', {
@@ -168,6 +178,7 @@ def addLesson(request):
             'form': LessonForm,
         })
 
+
 def addExample(request, number):
     if request.method == 'POST':
         form = ExampleForm(data=request.POST)
@@ -184,7 +195,6 @@ def addExample(request, number):
         return render(request, 'add_lesson.html', {
             'form': ExampleForm,
         })
-
 
 
 def editLesson(request, number):
@@ -241,3 +251,15 @@ def userProfileEdit(request):
         return render(request, 'user_profile_edit.html', {
             'form': UserProfileEditForm,
         })
+
+
+def subscribe(request, lesson):
+    user_name = request.user.username
+    user_instance = User.objects.get(username=user_name)
+    lesson_instance = Lesson.objects.get(id=lesson)
+    sub_instance =user_instance.profile.subscribe.filter(id=lesson)
+    if sub_instance.count()>0:
+        user_instance.profile.subscribe.remove(lesson_instance)
+    else:
+        user_instance.profile.subscribe.add(Lesson.objects.get(id=lesson))
+    return HttpResponseRedirect("/lessons/"+lesson+"/")

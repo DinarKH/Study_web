@@ -5,7 +5,13 @@
     <h1>User</h1>
     <p>{{ user.username }}</p>
     <p>{{ user.profile.money }}</p>
-    <p>{{ user.profile.description }}</p>
+    <p>{{ user.profile.description }}
+    <h4>Subs</h4>
+    {% for sub in subs %}
+        <a href={{"/lessons/"}}{{sub.id|stringformat:"i" |add:"/"}}>
+            <p>{{ sub.name }}</p>
+        </a>
+    {% endfor %}
     <h4>Lessons</h4>
     {% for lesson in lessons %}
         <a href={{"/lessons/"}}{{lesson.id|stringformat:"i" |add:"/"}}>

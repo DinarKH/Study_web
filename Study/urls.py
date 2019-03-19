@@ -25,5 +25,6 @@ urlpatterns = [
     re_path(r'^edit_lesson/(?P<number>\d+)/(?P<example>\d+)/$', views.editExample),
     re_path(r'^lessons/(?P<lesson>\d+)/(?P<example>\d+)/$', views.example),
     re_path(r'^user_profile_edit/$', views.userProfileEdit),
+    re_path(r'^subscribe/(?P<lesson>\d+)/$', views.subscribe),
     re_path(r'^', views.home),
 ]
