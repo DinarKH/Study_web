@@ -19,7 +19,6 @@ def lessons(request):
         page_link = "?p="
     else:
         if search == '':
-            print(subject_search)
             lessons_list = Lesson.objects.filter(subject=subject_search)
         else:
             lessons_list = Lesson.objects.filter(name__contains=search, subject=subject_search)
@@ -42,9 +41,9 @@ def lessons_detail(request, number):
     instance = get_object_or_404(Lesson, id=number)
     sub_list = instance.userprofile_set.all()
     if request.user.profile in sub_list:
-        sub_text = "unsubscribe"
+        sub_state = False
     else:
-        sub_text = "subscribe"
+        sub_state = True
     example_list = Example.objects.filter(lesson=number)
     comment_list = Comment.objects.filter(lesson=number)
     if request.method == 'POST':
@@ -62,7 +61,7 @@ def lessons_detail(request, number):
                               'form': CommentForm,
                               'comment_list': comment_list,
                               'example_list': example_list,
-                              'sub_text': sub_text
+                              'sub_state': sub_state
                           })
     return render(request, 'lesson_detail.html',
                   {
@@ -70,7 +69,7 @@ def lessons_detail(request, number):
                       'form': CommentForm,
                       'comment_list': comment_list,
                       'example_list': example_list,
-                      'sub_text': sub_text
+                      'sub_state': sub_state
                   })
 
 
@@ -206,7 +205,7 @@ def editLesson(request, number):
             form.save(commit=False)
             form.instance.user = request.user
             form.save()
-            return HttpResponseRedirect("/lessons/"+number+"/")
+            return HttpResponseRedirect("/lessons/" + number + "/")
         else:
             return render(request, 'edit_lesson.html', {
                 'form': LessonEditForm,
@@ -225,7 +224,7 @@ def editExample(request, number, example):
             # form.save(commit=False)
             # form.instance.user = request.user
             form.save()
-            return HttpResponseRedirect("/lessons/"+number+"/"+example+"/")
+            return HttpResponseRedirect("/lessons/" + number + "/" + example + "/")
         else:
             return render(request, 'edit_example.html', {
                 'form': ExampleEditForm,
@@ -258,9 +257,9 @@ def subscribe(request, lesson):
     user_name = request.user.username
     user_instance = User.objects.get(username=user_name)
     lesson_instance = Lesson.objects.get(id=lesson)
-    sub_instance =user_instance.profile.subscribe.filter(id=lesson)
-    if sub_instance.count()>0:
+    sub_instance = user_instance.profile.subscribe.filter(id=lesson)
+    if sub_instance.count() > 0:
         user_instance.profile.subscribe.remove(lesson_instance)
     else:
         user_instance.profile.subscribe.add(Lesson.objects.get(id=lesson))
-    return HttpResponseRedirect("/lessons/"+lesson+"/")
+    return HttpResponseRedirect("/lessons/" + lesson + "/")

@@ -5,9 +5,17 @@
         {{ instance.name }}
     </h4>
     <p>{{ instance.description }}</p>
-    <a href="/subscribe/{{ instance.pk|stringformat:"i"|add:"/" }}">
-        {{ sub_text }}
-    </a>
+    <form action="/subscribe/{{ instance.pk|stringformat:"i"|add:"/" }}">
+        {% if sub_state %}
+            <button>
+                Subscribe
+            </button>
+        {% else %}
+            <button style="background-color: grey!important;">
+                Unsubscribe
+            </button>
+        {% endif %}
+    </form>
     <hr>
     <a href={{ "/edit_lesson/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
         Edit
@@ -27,7 +35,7 @@
         <div class="list-group">
             <div class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
-                    <a href={{"./"}}{{ el.pk|stringformat:"i" |add:"/"}}>
+                    <a href={{ "./" }}{{ el.pk|stringformat:"i" |add:"/" }}>
                         <h4>
                             {{ el.name }}
                         </h4>

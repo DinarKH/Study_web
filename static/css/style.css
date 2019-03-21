@@ -1,3 +1,13 @@
-body{
-    background-color: white;
+a{
+    color: #ba002f!important;
+}
+a.navbar-brand{
+    color: white!important;
+}
+a.nav-link{
+    color: white!important;
+}
+button{
+    background-color: #ba002f!important;
+    color: white!important;
 }
