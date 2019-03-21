@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'lesson_detail.css' %}" type="text/css">
+{% endblock %}
 {% block body %}
     <h4>
         {{ instance.name }}
@@ -7,7 +10,7 @@
     <h6>
         {{ instance.date }}
     </h6>
-     <h6>Цена:
+    <h6>Цена:
         {{ instance.price }}
         рублей
     </h6>
@@ -42,19 +45,23 @@
         Examples
     </h4>
     {% for el in example_list %}
-        <div class="list-group">
-            <div class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <a href={{ "./" }}{{ el.pk|stringformat:"i" |add:"/" }}>
-                        <h4>
-                            {{ el.name }}
-                        </h4>
-                    </a>
-                    <small>{{ el.date }}</small>
-                </div>
-                <p class="mb-1">{{ el.text }}</p>
-            </div>
+        {% if sub_state %}
+            <div class="list-group not-active">
+        {% else %}
+            <div class="list-group">
+        {% endif %}
+    <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <a href={{ "./" }}{{ el.pk|stringformat:"i" |add:"/" }}>
+                <h4>
+                    {{ el.name }}
+                </h4>
+            </a>
+            <small>{{ el.date }}</small>
         </div>
+        <p class="mb-1">{{ el.text }}</p>
+    </div>
+    </div>
     {% endfor %}
     <br>
     <h5>Add Comment</h5>
