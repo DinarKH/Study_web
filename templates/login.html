@@ -2,19 +2,17 @@
 {% load widget_tweaks %}
 {% block form %}
     <form class="form-signin" method="post">
+        <h5 class="card-title text-center">Login</h5>
         {% csrf_token %}
         <div class="form-label-group">
-            {#                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>#}
             {{ form.username|add_class:'form-control' }}
             <label for="inputEmail">Login</label>
         </div>
-
         <div class="form-label-group">
-            {#                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>#}
             {{ form.password|add_class:'form-control' }}
             <label for="inputPassword">Password</label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Login
+        <button  class="btn btn-lg btn-danger btn-block text-uppercase"style="background-color: #ba002f   ; type="submit">Login
         </button>
         <hr class="my-4">
     </form>

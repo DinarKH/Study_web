@@ -1,21 +1,71 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'user_profile.css' %}" type="text/css">
+{% endblock %}
 {% block body %}
-    <a href="/user_profile_edit/">Edit</a>
-    <h1>User</h1>
-    <p>{{ user.username }}</p>
-    <p>{{ user.profile.money }}</p>
-    <p>{{ user.profile.description }}
-    <h4>Subs</h4>
-    {% for sub in subs %}
-        <a href={{"/lessons/"}}{{sub.id|stringformat:"i" |add:"/"}}>
-            <p>{{ sub.name }}</p>
-        </a>
-    {% endfor %}
-    <h4>Lessons</h4>
-    {% for lesson in lessons %}
-        <a href={{"/lessons/"}}{{lesson.id|stringformat:"i" |add:"/"}}>
-            <p>{{ lesson.name }}</p>
-        </a>
-    {% endfor %}
+
+
+    <link rel="stylesheet" href="https://bootswatch.com/4/simplex/bootstrap.min.css"/>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="card-title mb-4">
+                            <div class="d-flex justify-content-start">
+                                <div class="userData ml-3">
+                                    <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a
+                                            href="javascript:void(0);">{{ user.username }}</a></h2>
+                                    <a href="/user_profile_edit/">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="tab-content ml-1" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="basicInfo" role="tabpanel"
+                                         aria-labelledby="basicInfo-tab">
+                                        <div class="row">
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Description</label>
+                                            </div>
+                                            <div class="col-md-8 col-6">
+                                                {{ user.profile.description }}
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h4>Subs</h4>
+                                {% for sub in subs %}
+                                    <a href={{ "/lessons/" }}{{ sub.id|stringformat:"i" |add:"/" }}>
+                                        <p>{{ sub.name }}</p>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <div class="col-sm-6">
+                                <h4>Lessons</h4>
+                                {% for lesson in lessons %}
+                                    <a href={{ "/lessons/" }}{{ lesson.id|stringformat:"i" |add:"/" }}>
+                                        <p>{{ lesson.name }}</p>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
 {% endblock %}
