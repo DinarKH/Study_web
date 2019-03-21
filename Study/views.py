@@ -205,7 +205,7 @@ def editLesson(request, number):
             form.save(commit=False)
             form.instance.user = request.user
             form.save()
-            return HttpResponseRedirect(request.path_info)
+            return HttpResponseRedirect("/lessons/"+number+"/")
         else:
             return render(request, 'edit_lesson.html', {
                 'form': LessonEditForm,
@@ -224,7 +224,7 @@ def editExample(request, number, example):
             # form.save(commit=False)
             # form.instance.user = request.user
             form.save()
-            return HttpResponseRedirect(request.path_info)
+            return HttpResponseRedirect("/lessons/"+number+"/"+example+"/")
         else:
             return render(request, 'edit_example.html', {
                 'form': ExampleEditForm,

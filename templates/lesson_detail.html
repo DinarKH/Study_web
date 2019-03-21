@@ -4,46 +4,78 @@
     <h4>
         {{ instance.name }}
     </h4>
+    <p>{{ instance.description }}</p>
     <a href="/subscribe/{{ instance.pk|stringformat:"i"|add:"/" }}">
         {{ sub_text }}
     </a>
     <hr>
-    <a href={{"/edit_lesson/"}}{{ instance.pk|stringformat:"i"|add:"/"}}>
+    <a href={{ "/edit_lesson/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
         Edit
     </a>
     <br>
-    <a href={{"/add_example/"}}{{ instance.pk|stringformat:"i"|add:"/"}}>
+    <a href={{ "/add_example/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
         Add Example
     </a>
-    <p>{{ instance.description }}</p>
-    <a href={{"/user_profile/?user="|add:instance.user.username}}>
+
+    <a href={{ "/user_profile/?user="|add:instance.user.username }}>
         <p>{{ instance.user }}</p>
     </a>
     <h4>
         Examples
     </h4>
-    <hr>
-    {% for example in example_list %}
-        <a href="./{{ example.pk }}/">
-            <p>{{ example.name }}</p>
-            <p>{{ example.access }}</p>
-        </a>
-        <hr>
+    {% for el in example_list %}
+        <div class="list-group">
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <a href={{"./"}}{{ el.pk|stringformat:"i" |add:"/"}}>
+                        <h4>
+                            {{ el.name }}
+                        </h4>
+                    </a>
+                    <small>3 days ago</small>
+                </div>
+                <p class="mb-1">{{ el.text }}</p>
+            </div>
+        </div>
     {% endfor %}
     <br>
     <h5>Add Comment</h5>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">
-            Enter
-        </button>
-    </form>
 
-    <hr>
-    {% for comment in comment_list %}
-        <p>{{ comment.name }}</p>
-        <p>{{ comment.text }}</p>
-        <hr>
-    {% endfor %}
+    <div class="row bootstrap snippets">
+        <div class="col-md-6 col-md-offset-2 col-sm-12">
+            <div class="comment-wrapper">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Comment panel
+                    </div>
+                    <div class="panel-body">
+
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.text }}
+                            <br>
+                            <button type="submit" class="btn btn-info pull-right">Post</button>
+                        </form>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <ul class="media-list">
+                            {% for comment in comment_list %}
+                                <li class="media">
+                                    <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted">30 min ago</small>
+                                </span>
+                                        <strong class="text-success">{{ comment.name }}</strong>
+                                        <p>
+                                            {{ comment.text }}
+                                        </p>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

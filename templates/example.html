@@ -5,24 +5,46 @@
         {{ instance.name }}
     </h4>
     <a href={{"/edit_lesson/"}}{{ lesson|add:"/"}}{{ instance.pk|stringformat:"i"|add:"/"}}>
-        Edit not good
+        Edit
     </a>
     <p>{{ instance.text }}</p>
     <hr>
-    <br>
-    <h5>Add Comment</h5>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">
-            Enter
-        </button>
-    </form>
-
     <hr>
-    {% for comment in comment_list %}
-        <p>{{ comment.name }}</p>
-        <p>{{ comment.text }}</p>
-        <hr>
-    {% endfor %}
+     <div class="row bootstrap snippets">
+        <div class="col-md-6 col-md-offset-2 col-sm-12">
+            <div class="comment-wrapper">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Comment panel
+                    </div>
+                    <div class="panel-body">
+
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.text }}
+                            <br>
+                            <button type="submit" class="btn btn-info pull-right">Post</button>
+                        </form>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <ul class="media-list">
+                            {% for comment in comment_list %}
+                                <li class="media">
+                                    <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted">30 min ago</small>
+                                </span>
+                                        <strong class="text-success">{{ comment.name }}</strong>
+                                        <p>
+                                            {{ comment.text }}
+                                        </p>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

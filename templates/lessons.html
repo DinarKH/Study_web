@@ -10,23 +10,25 @@
         </button>
     </form>
     {% for el in page %}
-        <a href="/lessons/{{ el.id }}/">
-            <h4>
-                {{ el.name }}
-            </h4>
-        </a>
-        <p>
-            {{ el.description }}
-        </p>
-        <a href={{ "/user_profile/?user="|add:el.user.username }}>
-            <h6>
-                {{ el.user }}
-            </h6>
-        </a>
-        <h6>
-            {{ el.subject }}
-        </h6>
-        {{ el.descriptio }}
+        <div class="list-group">
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <a href="/lessons/{{ el.id }}/">
+                        <h4>
+                            {{ el.name }}
+                        </h4>
+                    </a>
+                    <small>3 days ago</small>
+                </div>
+                <p class="mb-1">{{ el.description }}</p>
+                <a href={{ "/user_profile/?user="|add:el.user.username }}>
+                    <small>
+                        {{ el.user }}
+                    </small>
+                </a>
+                <small>{{ el.subject }}</small>
+            </div>
+        </div>
     {% endfor %}
     <br><br>
     <nav aria-label="...">
@@ -42,4 +44,6 @@
             </li>
         </ul>
     </nav>
+
+
 {% endblock %}

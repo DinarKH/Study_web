@@ -30,6 +30,7 @@ class LessonEditForm(forms.ModelForm):
         model = Lesson
         fields = ['name', 'description', 'subject']
 
+
 class ExampleForm(forms.ModelForm):
     class Meta:
         model = Example
@@ -42,8 +43,10 @@ class ExampleEditForm(forms.ModelForm):
         fields = ['name', 'text', 'access']
 
 
-
 class CommentForm(forms.ModelForm):
+    text = forms.CharField(
+        widget=forms.Textarea(attrs={'class': "form-control", 'placeholder': "write a comment...", 'rows': "3"}))
+
     class Meta:
         model = Comment
         fields = {'text'}
