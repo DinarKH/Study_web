@@ -65,6 +65,9 @@ class CommentForm(forms.ModelForm):
 
 
 class CommentExampleForm(forms.ModelForm):
+    text = forms.CharField(
+        widget=forms.Textarea(attrs={'class': "form-control", 'placeholder': "write a comment...", 'rows': "3"}))
+
     class Meta:
         model = CommentExample
         fields = {'text'}
@@ -72,7 +75,7 @@ class CommentExampleForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    search_query = forms.CharField(max_length=100, required=False)
+    search_query = forms.CharField(max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
     subject_search = forms.ModelMultipleChoiceField(queryset=Subject.objects.all(), widget=forms.Select)
 
 

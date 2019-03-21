@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from .forms import RegistrationForm, LessonForm, LessonEditForm, CommentForm, SearchForm, UserProfileEditForm, \
     CommentExampleForm, ExampleForm, ExampleEditForm
 from .models import Lesson, Comment, Subject, User, Example, CommentExample, UserProfile
-
+from datetime import datetime
 
 def home(request):
     return render(request, 'home.html', )
@@ -51,6 +51,7 @@ def lessons_detail(request, number):
         if form.is_valid():
             form.save(commit=False)
             form.instance.lesson_id = number
+            form.instance.date = datetime.now()
             form.instance.name = request.user.username
             form.save()
             return HttpResponseRedirect(request.path_info)

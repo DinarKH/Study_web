@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>Курсы</h1>
-    <h7>Найдено курсов {{ lessons_list|length }}</h7>
-    <form method="get">
-        {{ search_form.as_p }}
-        <button type="submit">
-            Search
-        </button>
-    </form>
+    <div class="container">
+        <h1>Курсы</h1>
+        <h5>Найдено курсов {{ lessons_list|length }}</h5>
+        <form method="get">
+            <div class="form-label-group">
+                <label for="inputEmail">Query</label>
+                {{ search_form.search_query }}
+            </div>
+            <br>
+            <div class="form-label-group">
+                <label for="inputEmail">Subject</label>
+                {{ search_form.subject_search }}
+            </div>
+            <br>
+            <button type="submit">
+                Search
+            </button>
+        </form>
+    </div>
+    <br>
     {% for el in page %}
         <div class="list-group">
             <div class="list-group-item list-group-item-action flex-column align-items-start">
@@ -18,7 +30,7 @@
                             {{ el.name }}
                         </h4>
                     </a>
-                    <small>3 days ago</small>
+                    <small>{{ el.date }}</small>
                 </div>
                 <p class="mb-1">{{ el.description }}</p>
                 <a href={{ "/user_profile/?user="|add:el.user.username }}>

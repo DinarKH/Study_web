@@ -4,6 +4,9 @@
     <h4>
         {{ instance.name }}
     </h4>
+    <h6>
+        {{ instance.date }}
+    </h6>
     <p>{{ instance.description }}</p>
     <form action="/subscribe/{{ instance.pk|stringformat:"i"|add:"/" }}">
         {% if sub_state %}
@@ -40,7 +43,7 @@
                             {{ el.name }}
                         </h4>
                     </a>
-                    <small>3 days ago</small>
+                    <small>{{ el.date }}</small>
                 </div>
                 <p class="mb-1">{{ el.text }}</p>
             </div>
@@ -71,10 +74,15 @@
                                 <li class="media">
                                     <div class="media-body">
                                 <span class="text-muted pull-right">
-                                    <small class="text-muted">30 min ago</small>
+                                    <small class="text-muted">{{ comment.date }}</small>
                                 </span>
-                                        <strong class="text-success">{{ comment.name }}</strong>
+                                        <strong class="text-success">
+                                            <a href={{ "/user_profile/?user="|add:comment.name }}>
+                                                {{ comment.name }}
+                                            </a>
+                                        </strong>
                                         <p>
+
                                             {{ comment.text }}
                                         </p>
                                     </div>
