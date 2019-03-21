@@ -1,15 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block link %}
     <link rel="stylesheet" href="{% static 'login.css' %}" type="text/css">
 
 {% endblock %}
 {% block body %}
-        <!------ Include the above in your HEAD tag ---------->
-
-    <!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
-
-    <body>
     <div class="container">
         <div class="row">
             <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -20,13 +16,13 @@
                             {% csrf_token %}
                             <div class="form-label-group">
                                 {#                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>#}
-                                {{ form.username }}<br>
+                                {{ form.username|add_class:'form-control' }}
                                 <label for="inputEmail">Login</label>
                             </div>
 
                             <div class="form-label-group">
                                 {#                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>#}
-                                {{ form.password }}<br>
+                                {{ form.password|add_class:'form-control' }}
                                 <label for="inputPassword">Password</label>
                             </div>
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Login
@@ -38,5 +34,4 @@
             </div>
         </div>
     </div>
-    </body>
 {% endblock %}
