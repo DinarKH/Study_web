@@ -133,6 +133,7 @@ def changePassword(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data=request.POST, user=request.user)
         if form.is_valid():
+            form.save()
             update_session_auth_hash(request, form.user)
             return redirect('/home/')
         else:
