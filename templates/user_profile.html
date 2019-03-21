@@ -4,10 +4,6 @@
     <link rel="stylesheet" href="{% static 'user_profile.css' %}" type="text/css">
 {% endblock %}
 {% block body %}
-
-
-
-
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -32,8 +28,14 @@
                                             <div class="col-sm-3 col-md-2 col-5">
                                                 <label style="font-weight:bold;">Description</label>
                                             </div>
-                                            <div class="col-md-8 col-6">
+                                            <div class="col-md-9">
                                                 {{ user.profile.description }}
+                                            </div>
+                                            <div class="col-sm-3 col-md-2 col-5">
+                                                <label style="font-weight:bold;">Money</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                {{ user.profile.money }}
                                             </div>
                                         </div>
                                         <hr/>

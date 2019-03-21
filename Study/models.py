@@ -17,6 +17,7 @@ class Lesson(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.now, blank=True)
+    price = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

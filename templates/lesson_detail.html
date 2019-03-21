@@ -7,6 +7,10 @@
     <h6>
         {{ instance.date }}
     </h6>
+     <h6>Цена:
+        {{ instance.price }}
+        рублей
+    </h6>
     <p>{{ instance.description }}</p>
     <form action="/subscribe/{{ instance.pk|stringformat:"i"|add:"/" }}">
         {% if sub_state %}
@@ -19,6 +23,9 @@
             </button>
         {% endif %}
     </form>
+    <h4>
+        {{ message }}
+    </h4>
     <hr>
     <a href={{ "/edit_lesson/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
         Edit

@@ -7,6 +7,7 @@ from .forms import RegistrationForm, LessonForm, LessonEditForm, CommentForm, Se
 from .models import Lesson, Comment, Subject, User, Example, CommentExample, UserProfile
 from datetime import datetime
 
+
 def home(request):
     return render(request, 'home.html', )
 
@@ -40,6 +41,10 @@ def lessons(request):
 def lessons_detail(request, number):
     instance = get_object_or_404(Lesson, id=number)
     sub_list = instance.userprofile_set.all()
+    money_check = request.GET.get('msg')
+    message = ''
+    if money_check is not None:
+        message = 'Поплните счёт'
     if request.user.profile in sub_list:
         sub_state = False
     else:
@@ -62,7 +67,8 @@ def lessons_detail(request, number):
                               'form': CommentForm,
                               'comment_list': comment_list,
                               'example_list': example_list,
-                              'sub_state': sub_state
+                              'sub_state': sub_state,
+                              'message': message,
                           })
     return render(request, 'lesson_detail.html',
                   {
@@ -70,7 +76,8 @@ def lessons_detail(request, number):
                       'form': CommentForm,
                       'comment_list': comment_list,
                       'example_list': example_list,
-                      'sub_state': sub_state
+                      'sub_state': sub_state,
+                      'message': message,
                   })
 
 
@@ -84,6 +91,7 @@ def example(request, lesson, example):
             form.save(commit=False)
             form.instance.example_id = example
             form.instance.name = request.user.username
+            form.instance.date = datetime.now()
             form.save()
             return HttpResponseRedirect(request.path_info)
         else:
@@ -168,6 +176,7 @@ def addLesson(request):
         if form.is_valid():
             form.save(commit=False)
             form.instance.user = request.user
+            form.instance.date = datetime.now()
             form.save()
             return HttpResponseRedirect(request.path_info)
         else:
@@ -186,6 +195,7 @@ def addExample(request, number):
         if form.is_valid():
             form.save(commit=False)
             form.instance.lesson_id = number
+            form.instance.date = datetime.now()
             form.save()
             return HttpResponseRedirect(request.path_info)
         else:
@@ -262,5 +272,12 @@ def subscribe(request, lesson):
     if sub_instance.count() > 0:
         user_instance.profile.subscribe.remove(lesson_instance)
     else:
-        user_instance.profile.subscribe.add(Lesson.objects.get(id=lesson))
+        money_val = user_instance.profile.money - lesson_instance.price
+        if money_val >= 0:
+            user_instance.profile.subscribe.add(Lesson.objects.get(id=lesson))
+            user_instance.profile.money = money_val
+            user_instance.profile.save()
+            return redirect("/lessons/" + lesson + "/")
+        else:
+            return redirect("/lessons/" + lesson + "/?msg=Error")
     return HttpResponseRedirect("/lessons/" + lesson + "/")
