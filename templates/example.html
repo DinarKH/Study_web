@@ -7,9 +7,11 @@
     <h6>
         {{ instance.date }}
     </h6>
-    <a href={{ "/edit_lesson/" }}{{ lesson|add:"/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
-        Edit
-    </a>
+    {% if user.username == lesson_instance.user.username %}
+        <a href={{ "/edit_lesson/" }}{{ lesson|add:"/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
+            Edit
+        </a>
+    {% endif %}
     <p>{{ instance.text }}</p>
     <hr>
     <hr>

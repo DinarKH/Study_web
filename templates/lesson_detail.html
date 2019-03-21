@@ -30,16 +30,17 @@
         {{ message }}
     </h4>
     <hr>
-    <a href={{ "/edit_lesson/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
-        Edit
-    </a>
-    <br>
-    <a href={{ "/add_example/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
-        Add Example
-    </a>
-
+    {% if user.username == instance.user.username %}
+        <a href={{ "/edit_lesson/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
+            Edit
+        </a>
+        <br>
+        <a href={{ "/add_example/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
+            Add Example
+        </a>
+    {% endif %}
     <a href={{ "/user_profile/?user="|add:instance.user.username }}>
-        <p>{{ instance.user }}</p>
+        <p>Author: {{ instance.user }}</p>
     </a>
     <h4>
         Examples
@@ -63,49 +64,49 @@
     </div>
     </div>
     {% endfor %}
-    <br>
-    <h5>Add Comment</h5>
+<br>
+<h5>Add Comment</h5>
 
-    <div class="row bootstrap snippets">
-        <div class="col-md-6 col-md-offset-2 col-sm-12">
-            <div class="comment-wrapper">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        Comment panel
-                    </div>
-                    <div class="panel-body">
+<div class="row bootstrap snippets">
+    <div class="col-md-6 col-md-offset-2 col-sm-12">
+        <div class="comment-wrapper">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Comment panel
+                </div>
+                <div class="panel-body">
 
-                        <form method="post">
-                            {% csrf_token %}
-                            {{ form.text }}
-                            <br>
-                            <button type="submit" class="btn btn-info pull-right">Post</button>
-                        </form>
-                        <div class="clearfix"></div>
-                        <hr>
-                        <ul class="media-list">
-                            {% for comment in comment_list %}
-                                <li class="media">
-                                    <div class="media-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.text }}
+                        <br>
+                        <button type="submit" class="btn btn-info pull-right">Post</button>
+                    </form>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <ul class="media-list">
+                        {% for comment in comment_list %}
+                            <li class="media">
+                                <div class="media-body">
                                 <span class="text-muted pull-right">
                                     <small class="text-muted">{{ comment.date }}</small>
                                 </span>
-                                        <strong class="text-success">
-                                            <a href={{ "/user_profile/?user="|add:comment.name }}>
-                                                {{ comment.name }}
-                                            </a>
-                                        </strong>
-                                        <p>
+                                    <strong class="text-success">
+                                        <a href={{ "/user_profile/?user="|add:comment.name }}>
+                                            {{ comment.name }}
+                                        </a>
+                                    </strong>
+                                    <p>
 
-                                            {{ comment.text }}
-                                        </p>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                                        {{ comment.text }}
+                                    </p>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

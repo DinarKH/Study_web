@@ -50,7 +50,7 @@ class ExampleForm(forms.ModelForm):
 
     class Meta:
         model = Example
-        fields = ['name', 'text', 'access']
+        fields = ['name', 'text',]
 
 
 class ExampleEditForm(forms.ModelForm):

@@ -22,13 +22,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="/lessons/">Lessons</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/add_lesson/">Add lesson</a>
             </li>
             {% if not user.is_authenticated %}
                 <li class="nav-item">
@@ -45,9 +39,6 @@
                     <a class="nav-link" href="/change_password/">Change Password</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/">Admin</a>
-            </li>
         </ul>
         <a href={{"/user_profile/?user="|add:user.username}}>
             <span class="navbar-text">

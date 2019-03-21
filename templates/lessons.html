@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
-
+{% load static %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'lesson_detail.css' %}" type="text/css">
+{% endblock %}
 {% block body %}
     <div class="container">
         <h1>Курсы</h1>
@@ -21,41 +24,48 @@
         </form>
     </div>
     <br>
+
+    {% if not user.is_authenticated %}
+        <h3>Вам необходимо авторизоваться</h3>
+    {% else %}
+        <a href="/add_lesson/">
+            <h4>Add Lesson</h4>
+        </a>
+    {% endif %}
     {% for el in page %}
-        <div class="list-group">
-            <div class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <a href="/lessons/{{ el.id }}/">
-                        <h4>
-                            {{ el.name }}
-                        </h4>
-                    </a>
-                    <small>{{ el.date }}</small>
-                </div>
-                <p class="mb-1">{{ el.description }}</p>
-                <a href={{ "/user_profile/?user="|add:el.user.username }}>
-                    <small>
-                        {{ el.user }}
-                    </small>
-                </a>
-                <small>{{ el.subject }}</small>
-            </div>
+        {% if not user.is_authenticated %}
+            <div class="list-group not-active">
+        {% else %}
+            <div class="list-group">
+        {% endif %}
+
+    <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <a href="/lessons/{{ el.id }}/">
+                <h4>
+                    {{ el.name }}
+                </h4>
+            </a>
+            <small>{{ el.date }}</small>
         </div>
+        <p class="mb-1">{{ el.description }}</p>
+        <a href={{ "/user_profile/?user="|add:el.user.username }}>
+            <small>
+                {{ el.user }}
+            </small>
+        </a>
+        <small>{{ el.subject }}</small>
+    </div>
+    </div>
     {% endfor %}
-    <br><br>
-    <nav aria-label="...">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-            </li>
-            {% for num in paginator.page_range %}
-                <li class="page-item"><a class="page-link" href="./{{ page_link }}{{ num }}">{{ num }}</a></li>
-            {% endfor %}
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+<br><br>
+<nav aria-label="...">
+    <ul class="pagination">
+        {% for num in paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="./{{ page_link }}{{ num }}">{{ num }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>
 
 
 {% endblock %}

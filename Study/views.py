@@ -6,10 +6,11 @@ from .forms import RegistrationForm, LessonForm, LessonEditForm, CommentForm, Se
     CommentExampleForm, ExampleForm, ExampleEditForm
 from .models import Lesson, Comment, Subject, User, Example, CommentExample, UserProfile
 from datetime import datetime
+from collections import Collection
 
 
 def home(request):
-    return render(request, 'home.html', )
+    return HttpResponseRedirect('/lessons/')
 
 
 def lessons(request):
@@ -24,8 +25,8 @@ def lessons(request):
         else:
             lessons_list = Lesson.objects.filter(name__contains=search, subject=subject_search)
         page_link = '?search_query=' + search + "&subject_search=" + subject_search + "&p="
-    page_limit = 2
-    paginator = Paginator(lessons_list, page_limit)
+    page_limit = 5
+    paginator = Paginator(lessons_list[::-1], page_limit)
     page = request.GET.get('p')
     page = paginator.get_page(page)
     return render(request, 'lessons.html',
@@ -35,6 +36,7 @@ def lessons(request):
                       'paginator': paginator,
                       'search_form': SearchForm,
                       'page_link': page_link,
+                      'user': request.user,
                   })
 
 
@@ -69,6 +71,7 @@ def lessons_detail(request, number):
                               'example_list': example_list,
                               'sub_state': sub_state,
                               'message': message,
+                              'user': request.user,
                           })
     return render(request, 'lesson_detail.html',
                   {
@@ -78,11 +81,13 @@ def lessons_detail(request, number):
                       'example_list': example_list,
                       'sub_state': sub_state,
                       'message': message,
+                      'user': request.user,
                   })
 
 
 def example(request, lesson, example):
     example_instance = Example.objects.get(pk=example)
+    lesson_instance = Lesson.objects.get(id=lesson)
     # instance = get_object_or_404(Lesson, id=number)
     comment_list = CommentExample.objects.filter(example=example)
     if request.method == 'POST':
@@ -101,6 +106,8 @@ def example(request, lesson, example):
                               'form': CommentExampleForm,
                               'comment_list': comment_list,
                               'lesson': lesson,
+                              'user': request.user,
+                              'lesson_instance': lesson_instance,
                           })
     return render(request, 'example.html',
                   {
@@ -108,6 +115,8 @@ def example(request, lesson, example):
                       'form': CommentExampleForm,
                       'comment_list': comment_list,
                       'lesson': lesson,
+                      'user': request.user,
+                      'lesson_instance': lesson_instance,
                   })
 
 
@@ -156,6 +165,7 @@ def changePassword(request):
 def userProfile(request):
     try:
         user_name = request.GET.get('user')
+        cur_user = request.user
         user_instance = User.objects.get(username=user_name)
         user_lessons = Lesson.objects.filter(user=user_instance)
         user_subs = user_instance.profile.subscribe.all()
@@ -164,6 +174,7 @@ def userProfile(request):
             'user': user_instance,
             'lessons': user_lessons,
             'subs': user_subs,
+            'cur_user': cur_user
         })
     except:
         return render(request, 'user_profile.html', {
@@ -177,8 +188,10 @@ def addLesson(request):
             form.save(commit=False)
             form.instance.user = request.user
             form.instance.date = datetime.now()
-            form.save()
-            return HttpResponseRedirect(request.path_info)
+            lesson = form.save()
+            request.user.profile.subscribe.add(Lesson.objects.get(id=lesson.pk))
+
+            return HttpResponseRedirect('/lessons/')
         else:
             return render(request, 'add_lesson.html', {
                 'form': LessonForm,
@@ -194,10 +207,11 @@ def addExample(request, number):
         form = ExampleForm(data=request.POST)
         if form.is_valid():
             form.save(commit=False)
+            form.instance.access = False
             form.instance.lesson_id = number
             form.instance.date = datetime.now()
             form.save()
-            return HttpResponseRedirect(request.path_info)
+            return HttpResponseRedirect('/lessons/')
         else:
             return render(request, 'add_example.html', {
                 'form': ExampleForm,
@@ -216,6 +230,7 @@ def editLesson(request, number):
             form.save(commit=False)
             form.instance.user = request.user
             form.save()
+
             return HttpResponseRedirect("/lessons/" + number + "/")
         else:
             return render(request, 'edit_lesson.html', {

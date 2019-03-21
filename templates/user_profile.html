@@ -15,7 +15,9 @@
                                 <div class="userData ml-3">
                                     <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><a
                                             href="javascript:void(0);">{{ user.username }}</a></h2>
+                                    {% if user == cur_user %}
                                     <a href="/user_profile_edit/">Edit</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
