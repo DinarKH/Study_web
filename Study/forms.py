@@ -21,6 +21,11 @@ class RegistrationForm(UserCreationForm):
 
 
 class LessonForm(forms.ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
+    description = forms.CharField(
+        widget=forms.Textarea(attrs={'class': "form-control", 'placeholder': "write a comment...", 'rows': "3"}))
+
     class Meta:
         model = Lesson
         fields = ['name', 'description', 'subject']
@@ -33,6 +38,11 @@ class LessonEditForm(forms.ModelForm):
 
 
 class ExampleForm(forms.ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
+    text = forms.CharField(
+        widget=forms.Textarea(attrs={'class': "form-control", 'placeholder': "write a comment...", 'rows': "3"}))
+
     class Meta:
         model = Example
         fields = ['name', 'text', 'access']

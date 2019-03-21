@@ -192,7 +192,7 @@ def addExample(request, number):
                 'form': ExampleForm,
             })
     else:
-        return render(request, 'add_lesson.html', {
+        return render(request, 'add_example.html', {
             'form': ExampleForm,
         })
 

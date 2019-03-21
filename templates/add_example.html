@@ -1,12 +1,35 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>Add Example</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">
-            Add Example
-        </button>
-    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h1>Add Example</h1>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="title">Name</label>
+                        {{ form.name }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Text</label>
+                        {{ form.text }}
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Access</label>
+                        {{ form.access }}
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            Create
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}
