@@ -54,6 +54,11 @@ class ExampleForm(forms.ModelForm):
 
 
 class ExampleEditForm(forms.ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
+    text = forms.CharField(
+        widget=forms.Textarea(attrs={'class': "form-control", 'placeholder': "write a comment...", 'rows': "3"}))
+
     class Meta:
         model = Example
         fields = ['name', 'text', 'access']

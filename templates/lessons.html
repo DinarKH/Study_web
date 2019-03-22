@@ -9,17 +9,17 @@
         <h5>Найдено курсов {{ lessons_list|length }}</h5>
         <form method="get">
             <div class="form-label-group">
-                <label for="inputEmail">Query</label>
+                <label for="inputEmail">Запрос</label>
                 {{ search_form.search_query }}
             </div>
             <br>
             <div class="form-label-group">
-                <label for="inputEmail">Subject</label>
+                <label for="inputEmail">Предмет</label>
                 {{ search_form.subject_search }}
             </div>
             <br>
             <button type="submit">
-                Search
+                Поиск
             </button>
         </form>
     </div>
@@ -29,7 +29,7 @@
         <h3>Вам необходимо авторизоваться</h3>
     {% else %}
         <a href="/add_lesson/">
-            <h4>Add Lesson</h4>
+            <h4>Добавить курс</h4>
         </a>
     {% endif %}
     {% for el in page %}
@@ -54,6 +54,7 @@
                 {{ el.user }}
             </small>
         </a>
+        <small>{{ el.price }} рублей</small>
         <small>{{ el.subject }}</small>
     </div>
     </div>

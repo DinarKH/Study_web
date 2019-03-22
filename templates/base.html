@@ -22,21 +22,21 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/lessons/">Lessons</a>
+                <a class="nav-link" href="/lessons/">Список курсов</a>
             </li>
             {% if not user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/login/">Login</a>
+                    <a class="nav-link" href="/login/">Вход</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/registration/">Registration</a>
+                    <a class="nav-link" href="/registration/">Регистрация</a>
                 </li>
             {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout/">Logout</a>
+                    <a class="nav-link" href="/logout/">Выход</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/change_password/">Change Password</a>
+                    <a class="nav-link" href="/change_password/">Смена пароля</a>
                 </li>
             {% endif %}
         </ul>

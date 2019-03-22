@@ -2,17 +2,17 @@
 {% load widget_tweaks %}
 {% block form %}
     <form class="form-signin" method="post">
-        <h5 class="card-title text-center">Login</h5>
+        <h5 class="card-title text-center">Вход</h5>
         {% csrf_token %}
         <div class="form-label-group">
             {{ form.username|add_class:'form-control' }}
-            <label for="inputEmail">Login</label>
+            <label for="inputEmail">Логин</label>
         </div>
         <div class="form-label-group">
             {{ form.password|add_class:'form-control' }}
-            <label for="inputPassword">Password</label>
+            <label for="inputPassword">Пароль</label>
         </div>
-        <button  class="btn btn-lg btn-danger btn-block text-uppercase"style="background-color: #ba002f   ; type="submit">Login
+        <button  class="btn btn-lg btn-danger btn-block text-uppercase"style="background-color: #ba002f   ; type="submit">Вход
         </button>
         <hr class="my-4">
     </form>

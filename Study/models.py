@@ -56,7 +56,7 @@ class Comment(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    money = models.IntegerField(default=0)
+    money = models.IntegerField(default=100)
     description = models.CharField(max_length=200)
     subscribe = models.ManyToManyField(Lesson, blank=True)
 

@@ -18,11 +18,11 @@
     <form action="/subscribe/{{ instance.pk|stringformat:"i"|add:"/" }}">
         {% if sub_state %}
             <button>
-                Subscribe
+                Подписаться
             </button>
         {% else %}
             <button style="background-color: grey!important;">
-                Unsubscribe
+                Отписаться
             </button>
         {% endif %}
     </form>
@@ -32,18 +32,18 @@
     <hr>
     {% if user.username == instance.user.username %}
         <a href={{ "/edit_lesson/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
-            Edit
+            Редактировать
         </a>
         <br>
         <a href={{ "/add_example/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
-            Add Example
+            Добавить урок
         </a>
     {% endif %}
     <a href={{ "/user_profile/?user="|add:instance.user.username }}>
-        <p>Author: {{ instance.user }}</p>
+        <p>Автор: {{ instance.user }}</p>
     </a>
     <h4>
-        Examples
+        Уроки
     </h4>
     {% for el in example_list %}
         {% if sub_state %}
@@ -60,19 +60,19 @@
             </a>
             <small>{{ el.date }}</small>
         </div>
-        <p class="mb-1">{{ el.text }}</p>
+
     </div>
     </div>
     {% endfor %}
 <br>
-<h5>Add Comment</h5>
+<h5>Добавить комментарий</h5>
 
 <div class="row bootstrap snippets">
     <div class="col-md-6 col-md-offset-2 col-sm-12">
         <div class="comment-wrapper">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    Comment panel
+                    Комментарии
                 </div>
                 <div class="panel-body">
 
@@ -80,7 +80,7 @@
                         {% csrf_token %}
                         {{ form.text }}
                         <br>
-                        <button type="submit" class="btn btn-info pull-right">Post</button>
+                        <button type="submit" class="btn btn-info pull-right">Отправить</button>
                     </form>
                     <div class="clearfix"></div>
                     <hr>

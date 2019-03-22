@@ -1,18 +1,21 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h4>
-        {{ instance.name }}
-    </h4>
-    <h6>
-        {{ instance.date }}
-    </h6>
-    {% if user.username == lesson_instance.user.username %}
-        <a href={{ "/edit_lesson/" }}{{ lesson|add:"/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
-            Edit
-        </a>
-    {% endif %}
-    <p>{{ instance.text }}</p>
+    <div class="container">
+        <h4>
+            {{ instance.name }}
+        </h4>
+        <h6>
+            {{ instance.date }}
+        </h6>
+        {% if user.username == lesson_instance.user.username %}
+            <a href={{ "/edit_lesson/" }}{{ lesson|add:"/" }}{{ instance.pk|stringformat:"i"|add:"/" }}>
+                Изменить
+            </a>
+        {% endif %}
+
+        <p>{{ instance.text }}</p>
+    </div>
     <hr>
     <hr>
     <div class="row bootstrap snippets">
@@ -20,7 +23,7 @@
             <div class="comment-wrapper">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        Comment panel
+                        Комментарии
                     </div>
                     <div class="panel-body">
 
@@ -28,7 +31,7 @@
                             {% csrf_token %}
                             {{ form.text }}
                             <br>
-                            <button type="submit" class="btn btn-info pull-right">Post</button>
+                            <button type="submit" class="btn btn-info pull-right">Отправить</button>
                         </form>
                         <div class="clearfix"></div>
                         <hr>
