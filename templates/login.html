@@ -1,6 +1,20 @@
 {% extends 'form_log_base.html' %} }}
 {% load widget_tweaks %}
 {% block form %}
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
     <form class="form-signin" method="post">
         <h5 class="card-title text-center">Вход</h5>
         {% csrf_token %}
